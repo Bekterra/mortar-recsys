@@ -224,8 +224,19 @@ returns ii_links_combined, item_weights_combined {
                                 item,
                                 (overall_weight < 0 ? 0.0 : overall_weight) as overall_weight;
 
+    ii_links_joined = join $ii_links_weighted by (item_A, item_B), $ii_links_not_weighted by (item_A, item_B);
+
+
+    ii_links_joined_temp = foreach ii_links_joined generate
+                                ($ii_links_weighted::item_A is not null ? $ii_links_weighted::item_A
+                                    : $ii_links_not_weighted::item_A) as item_A,
+                                ($ii_links_weighted::item_B is not null ? $ii_links_weighted::item_B
+                                    : $ii_links_not_weighted::item_B) as item_B,
+                                (float) ($ii_links_weighted::weight + $ii_links_not_weighted::weight)
+                                                                      as weight;
+
     -- we only want positive numbers to prevent a divide by zero later on
-    $ii_links_combined = filter (union $ii_links_weighted, $ii_links_not_weighted) by weight > 0;
+    $ii_links_combined = filter ii_links_joined_temp by weight > 0;
 };
 
 /*

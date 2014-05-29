@@ -111,9 +111,8 @@ define recsys__GetItemItemRecommendations_AddItemItem(user_item_signals, item_it
     -- item_item_recs_raw need to be filtered
     $item_item_recs = filter item_item_recs_raw 
                           by  (item_B is not null) 
-                          and (item_A is not null) 
-                          and (weight is not null) 
-                          and (raw_weight is not null) 
+                          and (item_A is not null)
+                          and (weight is not null)
                           and (rank is not null);
 
 };
