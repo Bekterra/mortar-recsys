@@ -17,9 +17,6 @@ import 'recsys_helper.pig';
 -- This needs to be set when running without admin access on your mongoDB cluster.
 SET mongo.input.split.create_input_splits false;
 
-%default DB 'mortar_demo'
-%default COLLECTION 'lastfm_plays'
-
 raw_input = 
     load '$CONN/$DB.$COLLECTION'
     using com.mongodb.hadoop.pig.MongoLoader('

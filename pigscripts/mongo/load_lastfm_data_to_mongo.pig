@@ -12,9 +12,6 @@
 -- s3 path containing downloaded last.fm data file.
 %default INPUT_PATH 's3://mortar-example-data/input/lastfm-dataset-360K/usersha1-artmbid-artname-plays.tsv'
 
-%default DB 'mortar_demo'
-%default COLLECTION 'lastfm_plays'
-
 -- Load the data
 plays = load '$INPUT_PATH' using PigStorage('\t') 
             as (user:chararray, 
