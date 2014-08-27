@@ -32,7 +32,7 @@ raw_input =
 /******* Convert Data to Signals **********/
 
 -- The more times the user plays an artist the stronger the signal.
-user_signals = foreach raw_input generate
+input_signals = foreach raw_input generate
                  user,
                  artist_name as item,
                  num_plays as weight:int;
@@ -40,8 +40,8 @@ user_signals = foreach raw_input generate
 
 /******* Use Mortar recommendation engine to convert signals to recommendations **********/
 
-item_item_recs = recsys__GetItemItemRecommendations(user_signals);
-user_item_recs = recsys__GetUserItemRecommendations(user_signals, item_item_recs);
+item_item_recs = recsys__GetItemItemRecommendations(input_signals);
+user_item_recs = recsys__GetUserItemRecommendations(input_signals, item_item_recs);
 
 
 /******* Store recommendations back into Mongo **********/
