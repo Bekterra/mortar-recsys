@@ -5,10 +5,16 @@ import 'recsys_helper.pig';
  *  Generates artist recommendations based off of last.fm data provided by
  *  http://www.dtic.upf.edu/~ocelma/MusicRecommendationDataset/lastfm-360K.html
  *
- *  To run this script you will need to provide a parameter CONN with your mongo connection
- *  string.  To set in mortar do:
+ *  To run this script you will need to provide a parameter CONN
+ *  with your mongo connection string. You will also need to provide
+ *  parameters DB and COLLECTION with your mongo database and
+ *  collection name.
+ *  
+ *  To set in mortar do:
  *
  *      mortar config:set CONN=mongodb://<username>:<password>@<host>:<port>
+ *      mortar config:set DB=<databasename>
+ *      mortar config:set COLLECTION=<collectionname>
  *
  *  You will also need to have the data loaded in MongoDB.  To do that you can use
  *  the pigscripts/mongo/load_lastfm_data_to_mongo.pig script.

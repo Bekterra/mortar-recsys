@@ -2,11 +2,14 @@
  *  Load user-artist-plays data from Last.fm into mongoDB.  Data provided by: 
  *  http://www.dtic.upf.edu/~ocelma/MusicRecommendationDataset/lastfm-360K.html
  * 
- *  To run this script you will need to provide a parameter CONN with your mongo connection
- *  string.  To set in mortar do:
+ *  To run this script you will need to provide a parameter CONN
+ *  with your mongo connection string. You will also need to
+ *  provide parameters DB and COLLECTION with your mongo database and collection name.
+ *  To set in mortar do:
  *
  *      mortar config:set CONN=mongodb://<username>:<password>@<host>:<port>
- *
+ *      mortar config:set DB=<databasename>
+ *      mortar config:set COLLECTION=<collectionname>
  */
 
 -- s3 path containing downloaded last.fm data file.
