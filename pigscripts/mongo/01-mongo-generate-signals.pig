@@ -13,10 +13,10 @@ raw_input =  load '$CONN/$DB.$COLLECTION'
 
 /******* Convert Data to Signals **********/
 -- The more times the user plays an artist the stronger the signal.
-user_signals = foreach raw_input generate
+input_signals = foreach raw_input generate
                  user,
                  artist_name as item,
                  num_plays as weight:int;
 
-rmf $OUTPUT_PATH/user_signals;
-store user_signals into '$OUTPUT_PATH/user_signals' using PigStorage();
+rmf $OUTPUT_PATH/input_signals;
+store input_signals into '$OUTPUT_PATH/input_signals' using PigStorage();
