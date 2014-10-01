@@ -8,9 +8,12 @@ from mortar.luigi import dynamodb
 
 
 """
-This luigi pipeline runs the retail example, pulling data from s3 and puts the results in DynamoDB.
-To run, set up client.cfg with your Mortar username and API key, your s3 keys and your DynamoDB
-(these keys are likely to be the same).
+This luigi pipeline runs the retail example, pulling data from S3 and storing results in DynamoDB.
+
+To run, replace the value of MORTAR_PROJECT below with your actual project name. 
+Also, ensure that your AWS keys are correctly configured to write 
+to DynamoDB (see https://help.mortardata.com/data_apps/recommendation_engine/run_example_pipeline).
+
 Task Order:
     GenerateSignals
     ItemItemRecs
@@ -25,16 +28,18 @@ Task Order:
     ShutdownClusters
 
 To run:
-    mortar local:luigi luigiscripts/retail-luigi.py -p output-base-path=s3://mortar-example-output-data/<your-user-name>/retail
-        -p dynamodb-table-name=<dynamo-table-name> -p input-base-path=s3://mortar-example-data/retail-example
+    mortar luigi luigiscripts/retail-luigi.py \
+      --input-base-path "s3://mortar-example-data/retail-example" \
+      --output-base-path "s3://<your-s3-bucket>/retail" \
+      --dynamodb-table-name "<dynamo-table-name>"
 """
+
+# REPLACE WITH YOUR PROJECT NAME
+MORTAR_PROJECT = 'your-project-name'
 
 # helper function
 def create_full_path(base_path, sub_path):
     return '%s/%s' % (base_path, sub_path)
-
-# REPLACE WITH YOUR PROJECT NAME
-MORTAR_PROJECT = 'your-project-name'
 
 class RetailPigscriptTask(mortartask.MortarProjectPigscriptTask):
     # s3 path to the folder where the input data is located
