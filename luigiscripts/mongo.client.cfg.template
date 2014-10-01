@@ -1,12 +1,40 @@
+# 
+# This is the configuration file your Luigi pipelines. This file is specifically 
+# tailored to work with the monogo-luigi.py pipeline.
+#
+# When you run "mortar local:luigi" or "mortar luigi", Mortar will expand
+# the variables in this file (e.g. ${MORTAR_EMAIL} to their actual values
+# and store the result in "luigiscripts/client.cfg". You should not check
+# "luigiscripts/client.cfg" into source control, as it will be generated
+# on each new run.
+# 
+# In this file, you can reference any internal Mortar configuration variables 
+# (e.g. ${MORTAR_EMAIL}, ${AWS_S3_ACCESS_KEY_ID}), or any
+# project configuration variables you've set with "mortar config:set".
+# 
+
+
+# 
+# Mortar credentials to run jobs and query for
+# state from the Mortar API.
+#
 [mortar]
-email: ${email}
-api_key: ${api_key}
+email: ${MORTAR_EMAIL}
+api_key: ${MORTAR_API_KEY}
+host: api.mortardata.com
 
+# 
+# AWS credentials to check for completed output
+# and store job completion tokens in S3 from Luigi.
+#
 [s3]
-aws_access_key_id: ${aws_access_key_id}
-aws_secret_access_key: ${aws_secret_access_key}
+aws_access_key_id: ${AWS_ACCESS_KEY_ID}
+aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
 
+# 
+# MongoDB connection info.
+#
 [mongodb]
-mongo_conn: ${mongo_conn}
-mongo_db: ${mongo_db}
-mongo_input_collection: ${mongo_input_collection}
+mongo_conn: ${MONGO_CONN}
+mongo_db: ${MONGO_DB}
+mongo_input_collection: ${MONGO_INPUT_COLLECTION}
