@@ -35,6 +35,6 @@ aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
 # MongoDB connection info.
 #
 [mongodb]
-mongo_conn: ${MONGO_CONN}
-mongo_db: ${MONGO_DB}
-mongo_input_collection: ${MONGO_INPUT_COLLECTION}
+mongo_conn: ${CONN}
+mongo_db: ${DB}
+mongo_input_collection: ${COLLECTION}

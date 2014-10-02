@@ -13,8 +13,13 @@ from mortar.luigi import target_factory
 This luigi pipeline runs the Last.fm example, pulling data from mongo and putting the
 results in mongo.  Luigi tracks progress by writing intermediate data to S3.
 
-To run, set up client.cfg with your Mortar username and API key, your s3 keys and your mongo
-connction string.
+To run, replace the value of MORTAR_PROJECT below with your actual project name. 
+Also, set the following secure project configuration variables:
+
+    mortar config:set CONN=mongodb://<username>:<password>@<host>:<port>
+    mortar config:set DB=<databasename>
+    mortar config:set COLLECTION=<collectionname>
+
 Task Order:
     GenerateSignals
     ItemItemRecs
@@ -24,9 +29,10 @@ Task Order:
     ShutdownClusters
 
 To run:
-    mortar local:luigi luigiscripts/mongo-luigi.py
-        -p output-base-path=s3://mortar-example-output-data/<your-user-name>/mongo-lastfm
-        -p mongodb-output-collection-name=<collection-name>
+    
+    mortar luigi luigiscripts/mongo-luigi.py \
+      --output-base-path "s3://<your-s3-bucket>/mongo-lastfm" \
+      --mongodb-output-collection-name "<collection-name>"
 """
 
 # helper function
