@@ -2,13 +2,13 @@
 # This is the configuration file your Luigi pipelines.
 #
 # When you run "mortar local:luigi" or "mortar luigi", Mortar will expand
-# the variables in this file (e.g. ${MORTAR_EMAIL} to their actual values
+# the variables in this file (e.g. MORTAR_EMAIL) to their actual values
 # and store the result in "luigiscripts/client.cfg". You should not check
 # "luigiscripts/client.cfg" into source control, as it will be generated
 # on each new run.
 # 
 # In this file, you can reference any internal Mortar configuration variables 
-# (e.g. ${MORTAR_EMAIL}, ${AWS_S3_ACCESS_KEY_ID}), or any
+# (e.g. MORTAR_EMAIL, AWS_ACCESS_KEY_ID), or any
 # project configuration variables you've set with "mortar config:set".
 # 
 
