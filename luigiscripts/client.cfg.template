@@ -11,6 +11,8 @@
 # (e.g. MORTAR_EMAIL, AWS_ACCESS_KEY_ID), or any
 # project configuration variables you've set with "mortar config:set".
 # 
+# Read more at https://help.mortardata.com/technologies/luigi/luigi_configuration
+#
 
 
 # 
