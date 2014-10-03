@@ -10,7 +10,7 @@ from mortar.luigi import mortartask
 This luigi pipeline runs the Last.fm example, pulling data from mongo and putting the
 results in mongo.  Luigi tracks progress by writing intermediate data to S3.
 
-To run, replace the value of MORTAR_PROJECT below with your actual project name. 
+To run, replace the value of MORTAR_PROJECT below with your actual project name.
 Also, set the following secure project configuration variables:
 
     mortar config:set CONN=mongodb://<username>:<password>@<host>:<port>
@@ -26,7 +26,7 @@ Task Order:
     ShutdownClusters
 
 To run:
-    
+
     mortar luigi luigiscripts/mongo-luigi.py \
       --output-base-path "s3://<your-s3-bucket>/mongo-lastfm" \
       --mongodb-output-collection-name "<collection-name>"
@@ -74,7 +74,7 @@ class LastfmPigscriptTask(mortartask.MortarProjectPigscriptTask):
         return self.output_base_path
 
     def default_parallel(self):
-                """
+        """
         This is used for an optimization that tells Hadoop how many reduce tasks should be used
         for a Hadoop job.  By default we'll tell Hadoop to use the number of reduce slots
         in the cluster.
@@ -180,7 +180,7 @@ class UserItemRecs(LastfmPigscriptTask):
 
 class WriteMongoDBCollections(LastfmPigscriptTask):
     """
-    This task runs the 04-write-results-to-mongodb.pig pigscript which writes the 
+    This task runs the 04-write-results-to-mongodb.pig pigscript which writes the
     recommendations to MongoDB.
     """
 
@@ -231,7 +231,7 @@ class SanityTestIICollection(mongodb.SanityTestMongoDBCollection):
     mongodb_output_collection_name = luigi.Parameter()
 
     def collection_name(self):
-        # Append '-II' to distinguish between this collection and a 
+        # Append '-II' to distinguish between this collection and a
         # user-item collection.
         return '%s_%s' % (self.mongodb_output_collection_name, 'II')
 
@@ -271,7 +271,7 @@ class SanityTestUICollection(mongodb.SanityTestMongoDBCollection):
     mongodb_output_collection_name = luigi.Parameter()
 
     def collection_name(self):
-        # Append '-UI' to distinguish between this collection and a 
+        # Append '-UI' to distinguish between this collection and a
         # item-item collection.
         return '%s_%s' % (self.mongodb_output_collection_name, 'UI')
 
