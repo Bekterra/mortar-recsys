@@ -59,7 +59,7 @@ class RetailPigscriptTask(mortartask.MortarProjectPigscriptTask):
     # The base path to where output data will be written.  This will be an S3 path.
     output_base_path = luigi.Parameter()
 
-    # Default cluster size to use for running Mortar jobs.  A cluster size of 0
+    # The cluster size to use for running Mortar jobs.  A cluster size of 0
     # will run in Mortar's local mode.  This is a fast (and free!) way to run jobs
     # on small data samples.  Cluster sizes >= 2 will run on a Hadoop cluster.
     cluster_size = luigi.IntParameter(default=0)
