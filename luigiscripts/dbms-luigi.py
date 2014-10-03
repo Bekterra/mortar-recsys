@@ -1,20 +1,18 @@
 import luigi
 from luigi import configuration
-from luigi.s3 import S3Target
+from luigi.s3 import S3Target, S3PathTask
 
 from mortar.luigi import dbms
 from mortar.luigi import mortartask
-from mortar.luigi import sqoop
 
 
 """
-This luigi pipeline runs the Last.fm example, pulling data from dbms and putting the
-results in dbms.  Luigi tracks progress by writing intermediate data to S3.
+This luigi pipeline runs the Last.fm example, pulling data from S3 and putting the
+results in a DBMS.  Luigi tracks progress by writing intermediate data to S3.
 
 To run, set up client.cfg with your Mortar username and API key, your s3 keys and your dbms
 connction string.
 Task Order:
-    ExportDataToS3
     GenerateSignals
     ItemItemRecs
     UserItemRecs
@@ -26,10 +24,10 @@ Task Order:
     ShutdownClusters
 
 To run:
-    mortar local:luigi luigiscripts/dbms-luigi.py
-        -p output-base-path=s3://mortar-example-output-data/<your-user-name>/dbms-lastfm
-        -p data-store-path=s3://mortar-example-output-data/<your-user-name>/lastfm-data
-        -p postgres-table-name=<table-name>
+    mortar luigi luigiscripts/dbms-luigi.py \
+        --output-base-path "s3://<your-bucket>/dbms-lastfm" \
+        --data-store-path "s3://<your-bucket>/lastfm-data" \
+        --table-name-prefix "<table-name-prefix>"
 """
 
 # helper function
@@ -38,6 +36,10 @@ def create_full_path(base_path, sub_path):
 
 # REPLACE WITH YOUR PROJECT NAME
 MORTAR_PROJECT = '<your-project-name>'
+
+# location of Last.FM data in S3
+LAST_FM_INPUT_SIGNALS_PATH = \
+    's3://mortar-example-data/lastfm-dataset-360K/usersha1-artmbid-artname-plays.tsv'
 
 class LastfmPigscriptTask(mortartask.MortarProjectPigscriptTask):
     # s3 path to the output folder used by luigi to track progress
@@ -62,28 +64,19 @@ class LastfmPigscriptTask(mortartask.MortarProjectPigscriptTask):
     def default_parallel(self):
         return (self.cluster_size - 1) * mortartask.NUM_REDUCE_SLOTS_PER_MACHINE
 
-
-class ExportDataToS3(sqoop.MortarSqoopQueryTask):
-
-    path = luigi.Parameter()
-
-    def sql_query(self):
-        return 'SELECT * from lastfm.play_data'
-
-
 class GenerateSignals(LastfmPigscriptTask):
     """
     Runs the 01-dbms-generate-signals.pig Pigscript
     """
 
     def requires(self):
-        return [ExportDataToS3(output_base_path=self.output_base_path, path=self.data_store_path)]
+        return [S3PathTask(LAST_FM_INPUT_SIGNALS_PATH)]
 
     def script_output(self):
         return [S3Target(create_full_path(self.output_base_path, 'user_signals'))]
 
     def parameters(self):
-        return {'INPUT_SIGNALS': self.data_store_path,
+        return {'INPUT_SIGNALS': LAST_FM_INPUT_SIGNALS_PATH,
                 'OUTPUT_PATH': self.output_base_path}
 
     def script(self):

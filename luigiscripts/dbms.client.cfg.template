@@ -34,29 +34,18 @@ aws_access_key_id: ${AWS_ACCESS_KEY_ID}
 aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
 
 # 
-# Source database connection info.
-#
-[database]
-dbtype: postgresql
-database: lastfm
-host: recsys.c7dh68hljccq.us-east-1.rds.amazonaws.com
-port: 5432
-username: recsys_user
-password: example_data
-
-# 
 # Target database connection info.
 # 
 # NOTE: uncomment either postgres or mysql, but not both.
 #
 
 # uncomment to write to PostgresSQL
-#[postgres]
-#dbname: ${DBNAME}
-#user: ${USER}
-#password: ${PASSWORD}
-#host: ${HOST}
-#port: ${PORT}
+[postgres]
+dbname: ${DBNAME}
+user: ${USER}
+password: ${PASSWORD}
+host: ${HOST}
+port: ${PORT}
 
 ## uncomment to write to MySQL
 #[mysql]
