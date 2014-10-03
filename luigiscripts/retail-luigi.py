@@ -292,7 +292,7 @@ class WriteDynamoDBTables(RetailPigscriptTask):
     def script_output(self):
         """
         Because the recommendations are being written directly to DynamoDB there is no
-        S3 for this task.
+        S3 output for this task.
         """
         return []
 
@@ -510,7 +510,7 @@ class ShutdownClusters(mortartask.MortarClusterShutdownTask):
 if __name__ == "__main__":
     """
     We tell Luigi to run the last task in the task dependency graph.  Luigi will then
-    work backwards to find any tasks with its requirements meant and start from there.
+    work backwards to find any tasks with its requirements met and start from there.
 
     The first time this pipeline is run the only task with its requirements met will be
     GenerateSignals which will find the required input files in S3.
