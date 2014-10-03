@@ -9,4 +9,4 @@ item_item_recs  =   load '$OUTPUT_PATH/item_item_recs' using PigStorage()
 user_item_recs = recsys__GetUserItemRecommendations(user_signals, item_item_recs);
 
 rmf $OUTPUT_PATH/user_item_recs;
-store user_item_recs into '$OUTPUT_PATH/user_item_rescs' using PigStorage();
+store user_item_recs into '$OUTPUT_PATH/user_item_recs' using PigStorage();
