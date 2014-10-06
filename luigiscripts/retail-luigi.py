@@ -204,7 +204,7 @@ class CreateIITable(dynamodb.CreateDynamoDBTable):
     # Parameters required for creating a DynamoDB table
     dynamodb_table_name = luigi.Parameter()
     read_throughput = luigi.IntParameter(1)
-    write_throughput = luigi.IntParameter(10)
+    write_throughput = luigi.IntParameter(50)
     hash_key = 'from_id'
     hash_key_type = STRING
     range_key = 'rank'
@@ -244,7 +244,7 @@ class CreateUITable(dynamodb.CreateDynamoDBTable):
     # Parameters required for creating a DynamoDB table
     dynamodb_table_name = luigi.Parameter()
     read_throughput = luigi.IntParameter(1)
-    write_throughput = luigi.IntParameter(10)
+    write_throughput = luigi.IntParameter(50)
     hash_key = 'from_id'
     hash_key_type = STRING
     range_key = 'rank'
