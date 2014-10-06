@@ -1,35 +1,56 @@
+# 
+# This is the configuration file your Luigi pipelines. This file is specifically 
+# tailored to work with the dbms-luigi.py pipeline.
+#
+# When you run "mortar local:luigi" or "mortar luigi", Mortar will expand
+# the variables in this file (e.g. MORTAR_EMAIL) to their actual values
+# and store the result in "luigiscripts/client.cfg". You should not check
+# "luigiscripts/client.cfg" into source control, as it will be generated
+# on each new run.
+# 
+# In this file, you can reference any internal Mortar configuration variables 
+# (e.g. MORTAR_EMAIL, AWS_ACCESS_KEY_ID), or any
+# project configuration variables you've set with "mortar config:set".
+# 
+# Read more at https://help.mortardata.com/technologies/luigi/luigi_configuration
+#
+
+
+# 
+# Mortar credentials to run jobs and query for
+# state from the Mortar API.
+#
 [mortar]
-email: ${email}
-api_key: ${api_key}
+email: ${MORTAR_EMAIL}
+api_key: ${MORTAR_API_KEY}
+host: api.mortardata.com
 
+# 
+# AWS credentials to check for completed output
+# and store job completion tokens in S3 from Luigi.
+#
 [s3]
-aws_access_key_id: ${aws_access_key_id}
-aws_secret_access_key: ${aws_secret_access_key}
+aws_access_key_id: ${AWS_ACCESS_KEY_ID}
+aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
 
-# source database
-[database]
-dbtype: postgresql
-database: lastfm
-host: recsys.c7dh68hljccq.us-east-1.rds.amazonaws.com
-port: 5432
-username: recsys_user
-password: example_data
+# 
+# Target database connection info.
+# 
+# NOTE: uncomment either postgres or mysql, but not both.
+#
 
-
-# target database: only one of PostgreSQL and MySQL needed
-
-# to write to PostgresSQL
+# uncomment to write to PostgresSQL
 [postgres]
-dbname: ${dbname}
-user: ${user}
-password: ${password}
-host: ${host}
-port: ${port}
+dbname: ${DBNAME}
+user: ${USER}
+password: ${PASSWORD}
+host: ${HOST}
+port: ${PORT}
 
-# to write to MySQL
-[mysql]
-dbname: ${dbname}
-user: ${user}
-password: ${password}
-host: ${host}
-port: ${port}
+## uncomment to write to MySQL
+#[mysql]
+#dbname: ${DBNAME}
+#user: ${USER}
+#password: ${PASSWORD}
+#host: ${HOST}
+#port: ${PORT}

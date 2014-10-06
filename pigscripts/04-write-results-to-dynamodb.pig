@@ -1,7 +1,5 @@
 SET dynamodb.throughput.write.percent 1.0;
 
-REGISTER 'pig-dynamodb-0.1-SNAPSHOT.jar';
-
 item_item_recs = LOAD '$OUTPUT_PATH/item_item_recs'
     USING PigStorage()
     AS (from_id:chararray, to_id:chararray, weight:float, raw_weight:float, rank:int);

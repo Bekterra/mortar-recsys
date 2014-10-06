@@ -5,7 +5,7 @@ import 'recommenders.pig';
  *  http://www.dtic.upf.edu/~ocelma/MusicRecommendationDataset/lastfm-360K.html
  */
 
-raw_input  =    load '$INPUT_SIGNALS' using PigStorage(',')
+raw_input  =    load '$INPUT_SIGNALS' using PigStorage()
                         as (user: chararray, item_id: chararray, item: chararray, weight: float);
 
 user_signals = foreach raw_input generate user, item, weight;
