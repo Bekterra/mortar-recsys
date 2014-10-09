@@ -21,6 +21,7 @@ Task Order:
     GenerateSignals
     ItemItemRecs
     UserItemRecs
+    WriteMongoDBCollections
     SanityTestIICollection
     SanityTestUICollection
     ShutdownClusters
