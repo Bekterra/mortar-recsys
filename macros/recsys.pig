@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-register 'datafu-0.0.10.jar';
+register 'datafu-1.2.0.jar';
 register 'trove4j-3.0.3.jar';
 register 'recsys-udfs.jar';
 
-define recsys__Enumerate 
+define recsys__Enumerate
     datafu.pig.bags.Enumerate('1');
 
 register 'recsys.py' using jython as recsys_udfs;
 
 ----------------------------------------------------------------------------------------------------
 /*
- * This file contains the basic macros used in macros/recommenders.pig for the various steps of 
+ * This file contains the basic macros used in macros/recommenders.pig for the various steps of
  * building recommendations.
  *
  */
@@ -259,7 +259,7 @@ define recsys__InitShortestPaths(ii_links, num_recs) returns graph, paths {
  *      item_reason_item_weight: The original weight the item recommended had with the reason_item
  *
  */
-define recsys__BuildUserItemRecommendations(user_item_signals, item_item_recs, num_recs, diversity_adjust) 
+define recsys__BuildUserItemRecommendations(user_item_signals, item_item_recs, num_recs, diversity_adjust)
 returns ui_recs {
 
     define recsys__RefineUserItemRecs
