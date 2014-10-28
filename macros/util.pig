@@ -16,12 +16,12 @@
 
 ----------------------------------------------------------------------------------------------------
 /**
- * This file contains macros that can be useful when turning or modifying your 
+ * This file contains macros that can be useful when turning or modifying your
  * recommendation system.
  */
 ----------------------------------------------------------------------------------------------------
 
-register 'datafu-0.0.10.jar';
+register 'datafu-1.2.0.jar';
 
 /**
  * This macro helps you tune the BAYESIAN_PRIOR parameter for the recommender.  See
@@ -30,7 +30,7 @@ register 'datafu-0.0.10.jar';
  * Returns a tuple giving quantiles over the distribution of item popularity weights.
  *
  * Input:
- *      ui_signals: { (user:chararray, item:chararray, weight:float} ) 
+ *      ui_signals: { (user:chararray, item:chararray, weight:float} )
  *
  * Output:
  *      item_quants: (min, 5% quantile, 10% quantile, ..., 95% quantile, max)
