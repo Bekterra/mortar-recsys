@@ -251,7 +251,7 @@ define recsys__InitShortestPaths(ii_links, num_recs) returns graph, paths {
  *                                              See params/README.md for more details.
  *
  * Output:
- *      user_item_recs: { (user:chararray, item:chararray, weight:flaot, reason_item:chararray,
+ *      user_item_recs: { (user:chararray, item:chararray, weight:float, reason_item:chararray,
  *                         user_reason_item_weight:float, item_reason_item_weight:float, rank:int) }
  *
  *      reason_item: The item the user interacted with that generated this recommendation
