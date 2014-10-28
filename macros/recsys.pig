@@ -265,11 +265,15 @@ returns ui_recs {
     define recsys__RefineUserItemRecs
         com.mortardata.recsys.RefineUserItemRecs('$num_recs', '$diversity_adjust');
 
-    user_recs_tmp   =   foreach (join $user_item_signals by item, $item_item_recs by item_A) generate
+    user_recs_tmp   =   foreach (join $user_item_signals by item,
+                                      $item_item_recs by item_A) generate
                                             user as user,
                                           item_B as item,
                             (float)
-                            SQRT($user_item_signals::weight * $item_item_recs::weight) as weight,
+                            SQRT(
+                                  ($user_item_signals::weight > 0 ?
+                                     $user_item_signals::weight : 0)
+                                 * $item_item_recs::weight) as weight,
                                           item_A as reason,
                       $user_item_signals::weight as user_link,
                                       raw_weight as item_link;

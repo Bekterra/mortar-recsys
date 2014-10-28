@@ -187,11 +187,9 @@ public class RefineUserItemRecs extends EvalFunc<DataBag> {
         return new Comparator<Tuple>() {
             public int compare(Tuple u, Tuple v) {
                 try {
-                    float uWeight = (Float) u.get(fieldToSort);
-                    float vWeight = (Float) v.get(fieldToSort);
-                    if (uWeight > vWeight) { return -1; }
-                    else if (uWeight < vWeight) { return 1; }
-                    else { return 0; }
+                    Float uWeight = (Float) u.get(fieldToSort);
+                    Float vWeight = (Float) v.get(fieldToSort);
+                    return vWeight.compareTo(uWeight);
                 } catch (ExecException e) {
                     throw new RuntimeException(e);
                 }
