@@ -10,7 +10,6 @@ from mortar.luigi import mortartask
 This luigi pipeline runs the Last.fm example, pulling data from S3 and putting the
 results in a DBMS.  Luigi tracks progress by writing intermediate data to S3.
 
-To run, replace the value of MORTAR_PROJECT below with your actual project name.
 
 Task Order:
     GenerateSignals
@@ -29,9 +28,6 @@ To run:
         --table-name-prefix "<table-name-prefix>"
 """
 
-# REPLACE WITH YOUR PROJECT NAME
-MORTAR_PROJECT = '<your-project-name>'
-
 def create_full_path(base_path, sub_path):
     """
     Helper function for constructing paths.
@@ -47,7 +43,7 @@ class LastfmPigscriptTask(mortartask.MortarProjectPigscriptTask):
     """
     This is the base class for all of our Mortar related Luigi Tasks.  It extends
     the generic MortarProjectPigscriptTask to set common defaults we'll use
-    for this pipeline: common data paths, default cluster size, and our Mortar project name.
+    for this pipeline: common data paths and default cluster size. 
     """
 
     # The base path to where output data will be written.  This will be an S3 path.
@@ -57,12 +53,6 @@ class LastfmPigscriptTask(mortartask.MortarProjectPigscriptTask):
     # will run in Mortar's local mode.  This is a fast (and free!) way to run jobs
     # on small data samples.  Cluster sizes >= 2 will run on a Hadoop cluster.
     cluster_size = luigi.IntParameter(default=10)
-
-    def project(self):
-        """
-        Name of your Mortar project containing this script.
-        """
-        return MORTAR_PROJECT
 
     def token_path(self):
         """
