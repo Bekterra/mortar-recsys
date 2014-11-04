@@ -10,8 +10,7 @@ from mortar.luigi import dynamodb
 """
 This luigi pipeline runs the retail example, pulling data from S3 and storing results in DynamoDB.
 
-To run, replace the value of MORTAR_PROJECT below with your actual project name.
-Also, ensure that your AWS keys are correctly configured to write
+To run, ensure that your AWS keys are correctly configured to write
 to DynamoDB (see https://help.mortardata.com/data_apps/recommendation_engine/run_example_pipeline).
 
 Task Order:
@@ -34,9 +33,6 @@ To run:
       --dynamodb-table-name "<dynamo-table-name>"
 """
 
-# REPLACE WITH YOUR PROJECT NAME
-MORTAR_PROJECT = 'your-project-name'
-
 def create_full_path(base_path, sub_path):
     """
     Helper function for constructing paths.
@@ -48,7 +44,7 @@ class RetailPigscriptTask(mortartask.MortarProjectPigscriptTask):
     """
     This is the base class for all of our Mortar related Luigi Tasks.  It extends
     the generic MortarProjectPigscriptTask to set common defaults we'll use
-    for this pipeline: common data paths, default cluster size, and our Mortar project name.
+    for this pipeline: common data paths and default cluster size.
     """
 
     # The base path to where input data is located.  In most cases your input data
@@ -63,12 +59,6 @@ class RetailPigscriptTask(mortartask.MortarProjectPigscriptTask):
     # will run in Mortar's local mode.  This is a fast (and free!) way to run jobs
     # on small data samples.  Cluster sizes >= 2 will run on a Hadoop cluster.
     cluster_size = luigi.IntParameter(default=0)
-
-    def project(self):
-        """
-        Name of your Mortar project containing this script.
-        """
-        return MORTAR_PROJECT
 
     def token_path(self):
         """
