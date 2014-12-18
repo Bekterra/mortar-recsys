@@ -255,7 +255,12 @@ class CreateUITable(dynamodb.CreateDynamoDBTable):
         Tell Luigi to run the UserItemRecs task before this task.
         """
         return [UserItemRecs(input_base_path=self.input_base_path,
-                             output_base_path=self.output_base_path)]
+                             output_base_path=self.output_base_path),
+                # Serialize the DynamoDB create table requests to avoid overwhelming
+                # the DyamoDB API and having requests throttled.
+                CreateIITable(input_base_path=self.input_base_path,
+                              output_base_path=self.output_base_path,
+                              dynamodb_table_name=self.dynamodb_table_name)]
 
 
 class WriteDynamoDBTables(RetailPigscriptTask):
