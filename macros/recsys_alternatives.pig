@@ -211,11 +211,16 @@ returns ii_links_combined, item_weights_combined {
     -- joins together the two item item signals in order to pair the corresponding weights together
     item_weights_joined = join $item_weights by item FULL, ii_no_weight_summed by item;
 
-    item_weights_combined_temp = foreach item_weights_joined generate
-                                    (item_weights::item is not null ?
-                                        item_weights::item : ii_no_weight_summed::item)
-                                                    as item,
-                                    (float) (item_weights::overall_weight +
+    item_weights_combined_temp =  foreach item_weights_joined 
+                                 generate (item_weights::item is not null ?
+                                                item_weights::item : 
+                                                ii_no_weight_summed::item)   as item,
+                                          (float) 
+                                          (item_weights::overall_weight is null ?
+                                                0.0 :
+                                                item_weights::overall_weight) +
+                                          (ii_no_weight_summed::overall_weight is null ?
+                                                0.0 :
                                                 ii_no_weight_summed::overall_weight)
                                                     as overall_weight;
 
@@ -224,17 +229,20 @@ returns ii_links_combined, item_weights_combined {
                                 item,
                                 (overall_weight < 0 ? 0.0 : overall_weight) as overall_weight;
 
-    ii_links_joined = join $ii_links_weighted by (item_A, item_B), $ii_links_not_weighted by (item_A, item_B);
+    ii_links_joined = join $ii_links_weighted by (item_A, item_B) FULL, $ii_links_not_weighted by (item_A, item_B);
 
 
     ii_links_joined_temp = foreach ii_links_joined generate
-                                ($ii_links_weighted::item_A is not null ? $ii_links_weighted::item_A
-                                    : $ii_links_not_weighted::item_A) as item_A,
-                                ($ii_links_weighted::item_B is not null ? $ii_links_weighted::item_B
-                                    : $ii_links_not_weighted::item_B) as item_B,
-                                (float) ($ii_links_weighted::weight + $ii_links_not_weighted::weight)
-                                                                      as weight;
-
+                                ($ii_links_weighted::item_A is not null ? 
+                                    $ii_links_weighted::item_A : $ii_links_not_weighted::item_A) as item_A,
+                                ($ii_links_weighted::item_B is not null ? 
+                                    $ii_links_weighted::item_B : $ii_links_not_weighted::item_B) as item_B,
+                                (float) 
+                                ($ii_links_weighted::weight is null ?
+                                    0.0 : $ii_links_weighted::weight) +
+                                ($ii_links_not_weighted::weight is null ?
+                                    0.0 : $ii_links_not_weighted::weight)
+                                                                            as weight;
     -- we only want positive numbers to prevent a divide by zero later on
     $ii_links_combined = filter ii_links_joined_temp by weight > 0;
 };
